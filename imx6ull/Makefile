@@ -8,9 +8,9 @@
 
 ifeq ($(shell [ -s __ver__.mk -a -s u-boot.mk ] && echo 1 || echo 0),0)
 
-.PHONY: all help init
-
 LAZY_CODING_URL ?= https://github.com/FooFooDamon/lazy_coding_skills
+
+.PHONY: all help init
 
 all help init:
 	@for i in __ver__.mk u-boot.mk; \
@@ -27,6 +27,7 @@ include __ver__.mk
 SRC_PKG_FILE := ./uboot-imx-rel_imx_4.1.15_2.1.0_ga.tar.gz
 SRC_PKG_URL := https://github.com/nxp-imx/uboot-imx/archive/refs/tags/rel_imx_4.1.15_2.1.0_ga.tar.gz
 SRC_PARENT_DIR := ./_tmp_
+INSTALL_DIR ?= ${HOME}/tftpd/imx6ullevk
 DEFCONFIG := configs/mx6ull_14x14_evk_nand_defconfig
 EXTRA_TARGETS :=
 CUSTOM_FILES := ${DEFCONFIG} \
