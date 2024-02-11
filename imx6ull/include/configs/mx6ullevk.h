@@ -123,21 +123,71 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	CONFIG_MFG_ENV_SETTINGS \
 	"mtdparts=" MTDPARTS_DEFAULT "\0" \
+	"kernel_partition=kernel\0" \
 	"kernel_size=" __stringify(KERNEL_PARTITION_SIZE) "\0" \
 	"dtb_size=" __stringify(DTB_PARTITION_SIZE) "\0" \
 	"fdt_addr=0x83000000\0" \
 	"fdt_high=0xffffffff\0"	  \
 	"console=ttymxc0\0" \
+	"ethdev=eth0\0" \
 	"ipaddr=192.168.111.111\0" \
 	"netmask=255.255.255.0\0" \
 	"serverip=192.168.111.3\0" \
-	"bootargs=console=ttymxc0,115200 ubi.mtd=5 ro quiet "  \
-		"root=ubi0:rootfs rootfstype=ubifs "		     \
+	"gatewayip=192.168.111.3\0" \
+	"rootpath=/home/foo/tftpd/imx6ullevk/rootfs\0" \
+	"boottype=local\0" \
+	"bootargs=${bootargs_local}\0" \
+	"bootcmd=printenv; run bootcmd_${boottype}\0" \
+	"bootargs_local=console=ttymxc0,115200 ubi.mtd=5 ro quiet "  \
+		"root=ubi0:rootfs rootfstype=ubifs "	\
 		CONFIG_BOOTARGS_CMA_SIZE \
 		"\0"\
-	"bootcmd=nand read ${loadaddr} kernel ${kernel_size};"\
-		"nand read ${fdt_addr} dtb ${dtb_size};"\
-		"bootz ${loadaddr} - ${fdt_addr}\0"
+	"bootcmd_local=setenv bootargs ${bootargs_local}; " \
+		"nand read ${loadaddr} ${kernel_partition} ${kernel_size}; " \
+		"nand read ${fdt_addr} dtb ${dtb_size}; " \
+		"bootz ${loadaddr} - ${fdt_addr}\0" \
+	"bootargs_net=console=${console},${baudrate} root=/dev/nfs rw " \
+		"nfsroot=${serverip}:${rootpath},v3,tcp "	\
+		"ip=${ipaddr}:${serverip}:${gatewayip}:${netmask}::${ethdev}\0"	\
+	"bootcmd_net=setenv bootargs ${bootargs_net}; " \
+		"run tftpget_kernel; " \
+		"run tftpget_dtb; " \
+		"bootz ${loadaddr} - ${fdt_addr}\0" \
+	"dtb_file=imx6ullevk/imx6ull-14x14-evk.dtb\0" \
+	"tftpget_dtb=tftp ${fdt_addr} ${dtb_file}\0" \
+	"update_dtb_via_tftp=" \
+		"if run tftpget_dtb; then " \
+			"if nand erase.part dtb; then " \
+				"if nand write ${fdt_addr} dtb ${filesize}; then " \
+					"if itest ${filesize} != ${dtb_size}; then " \
+						"setexpr dtb_size ${filesize}; " \
+						"saveenv; " \
+						"echo Updated dtb_size to 0x${dtb_size}; " \
+					"fi; " \
+				"fi; " \
+			"fi; " \
+		"fi\0" \
+	"kernel_file=imx6ullevk/zImage\0" \
+	"tftpget_kernel=tftp ${loadaddr} ${kernel_file}\0" \
+	"update_kernel_via_tftp=" \
+		"if run tftpget_kernel; then " \
+			"if nand erase.part ${kernel_partition}; then " \
+				"if nand write ${loadaddr} ${kernel_partition} ${filesize}; then " \
+					"if itest ${filesize} != ${kernel_size}; then " \
+						"setexpr kernel_size ${filesize}; " \
+						"saveenv; " \
+						"echo Updated kernel_size to 0x${kernel_size}; " \
+					"fi; " \
+				"fi; " \
+			"fi; " \
+		"fi\0" \
+	"rootfs_fille=imx6ullevk/rootfs.ubi\0" \
+	"update_rootfs_via_tftp=" \
+		"if tftp ${loadaddr} ${rootfs_fille}; then " \
+			"if nand erase.part rootfs; then " \
+				"nand write ${loadaddr} rootfs ${filesize}; " \
+			"fi; " \
+		"fi\0"
 
 #else
 #define CONFIG_EXTRA_ENV_SETTINGS \
