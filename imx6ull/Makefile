@@ -24,8 +24,8 @@ else
 
 include __ver__.mk
 
-SRC_PKG_FILE := ./uboot-imx-rel_imx_4.1.15_2.1.0_ga.tar.gz
-SRC_PKG_URL := https://github.com/nxp-imx/uboot-imx/archive/refs/tags/rel_imx_4.1.15_2.1.0_ga.tar.gz
+PKG_FILE := ./uboot-imx-rel_imx_4.1.15_2.1.0_ga.tar.gz
+PKG_URL := https://github.com/nxp-imx/uboot-imx/archive/refs/tags/rel_imx_4.1.15_2.1.0_ga.tar.gz
 SRC_PARENT_DIR := ./_tmp_
 INSTALL_DIR ?= ${HOME}/tftpd/imx6ullevk
 DEFCONFIG := configs/mx6ull_14x14_evk_nand_defconfig
