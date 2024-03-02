@@ -29,8 +29,8 @@ PKG_URL := https://github.com/nxp-imx/uboot-imx/archive/refs/tags/rel_imx_4.1.15
 SRC_PARENT_DIR := ./_tmp_
 INSTALL_DIR ?= ${HOME}/tftpd/imx6ullevk
 DEFCONFIG := configs/mx6ull_14x14_evk_nand_defconfig
-EXTRA_TARGETS :=
-CUSTOM_FILES := ${DEFCONFIG} \
+EXT_TARGETS +=
+CUSTOM_FILES += \
     arch/arm/cpu/armv7/start.S \
     arch/arm/cpu/armv7/soc.c \
     include/configs/mx6ullevk.h \
