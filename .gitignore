@@ -48,5 +48,5 @@ obj/
 .*_defconfig
 *.old.dtb
 *.pretty.dts
-uboot-*.tar.gz
+u*boot-*.tar.gz
 
