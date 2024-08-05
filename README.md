@@ -17,7 +17,7 @@
 and perform the following operations:
 
 ````
-$ make init # Only needed at the first time
+$ make prepare # Only needed at the first time
 $
 $ make help # If you need help
 $
