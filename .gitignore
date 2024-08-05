@@ -37,6 +37,8 @@ zImage.old
 logs
 *.log
 .build
+.srctree_parent_dir
+.which
 _tmp_
 *.tmp
 *.dat
