@@ -10,9 +10,9 @@ ifeq ($(shell [ -s __ver__.mk -a -s u-boot.mk ] && echo 1 || echo 0),0)
 
 LAZY_CODING_URL ?= https://github.com/FooFooDamon/lazy_coding_skills
 
-.PHONY: all help init
+.PHONY: all prepare
 
-all help init:
+all prepare:
 	@for i in __ver__.mk u-boot.mk; \
 	do \
 		[ -s $${i} ] || wget -c "${LAZY_CODING_URL}/raw/main/makefile/$${i}"; \
