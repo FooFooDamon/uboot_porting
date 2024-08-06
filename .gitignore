@@ -27,6 +27,7 @@ gccdump.s
 __pycache__
 *.pyc
 .~*
+*.priv.*
 
 # ---- Project-specific rules below ----
 
