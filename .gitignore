@@ -52,4 +52,5 @@ obj/
 *.old.dtb
 *.pretty.dts
 u*boot-*.tar.gz
+*.scr
 
