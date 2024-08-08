@@ -1,6 +1,7 @@
 ARCH ?= arm
 CROSS_COMPILE ?= aarch64-linux-gnu-
-INSTALL_DIR ?= ${HOME}/tftpd/orange-pi-5
+INSTALL_DIR ?= $(if $(shell uname -m | grep aarch64),$(shell ls -d /usr/lib/linux-u-boot-*),${HOME}/tftpd/orange-pi-5)
+POST_INSTALL_CMD ?= ls ${INSTALL_DIR}/u-boot* | grep -v "u-boot\.itb" | xargs -I {} rm {}
 DEFCONFIG ?= configs/orangepi_5_defconfig
 EXT_TARGETS += u-boot.itb u-boot.dtb
 CUSTOM_FILES += arch/${ARCH}/dts/rk3588s-orangepi-5.dts
@@ -21,7 +22,11 @@ bl31.elf:
 	rm -f $${bl31_dir}/$@; \
 	false
 
-#install: bootscript_install
+ifeq ($(shell uname -m),aarch64)
+
+install: bootscript_install
+
+endif
 
 bootscript_install: bootscript
 	install ../boot.cmd ../boot.scr /boot/
