@@ -11,7 +11,7 @@ LAZY_CODING_MAKEFILES := __ver__.mk u-boot.mk
 
 ifeq ($(shell [ true $(foreach i, ${LAZY_CODING_MAKEFILES}, -a -s ${i}) ] && echo 1 || echo 0),0)
 
-.PHONY: all prepare
+.PHONY: all help prepare
 
 LAZY_CODING_URL ?= https://github.com/FooFooDamon/lazy_coding_skills
 
