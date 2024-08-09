@@ -1,15 +1,23 @@
 ARCH ?= arm
 CROSS_COMPILE ?= aarch64-linux-gnu-
 INSTALL_DIR ?= $(if $(shell uname -m | grep aarch64),$(shell ls -d /usr/lib/linux-u-boot-*),${HOME}/tftpd/orange-pi-5)
-POST_INSTALL_CMD ?= ls ${INSTALL_DIR}/u-boot* | grep -v "u-boot\.itb" | xargs -I {} rm {}
+POST_INSTALL_CMD ?= ls ${INSTALL_DIR}/u-boot* | grep -v "u-boot\.itb" | xargs -I {} rm {}; \
+    cp idbloader.img ${INSTALL_DIR}/
+UNINSTALL_CMD ?= rm -f ${INSTALL_DIR}/u-boot.itb ${INSTALL_DIR}/idbloader.img
 DEFCONFIG ?= configs/orangepi_5_defconfig
-EXT_TARGETS += u-boot.itb u-boot.dtb
+EXT_TARGETS += u-boot.itb u-boot.dtb tpl/u-boot-tpl.bin spl/u-boot-spl.bin
 CUSTOM_FILES += arch/${ARCH}/dts/rk3588s-orangepi-5.dts
-USER_HELP_PRINTS ?= echo "  * ${MAKE} bootscript"; \
+USER_HELP_PRINTS ?= echo "  * ${MAKE} once4all"; \
+    echo "  * ${MAKE} idbloader.img"; \
+    echo "  * ${MAKE} idbloader.img-clean"; \
+    echo "  * ${MAKE} bootscript"; \
     echo "  * ${MAKE} bootscript_install"; \
     echo "  * ${MAKE} fix_clangd_db";
 
-.PHONY: u-boot.itb bl31.elf u-boot.dtb install bootscript bootscript_install fix_clangd_db
+.PHONY: once4all u-boot.itb bl31.elf u-boot.dtb idbloader.img-clean clean \
+    install bootscript bootscript_install fix_clangd_db
+
+once4all: u-boot.itb idbloader.img
 
 u-boot.itb: bl31.elf u-boot.dtb
 
@@ -21,6 +29,15 @@ bl31.elf:
 	[ $$? -ne 0 ] || exit 0; \
 	rm -f $${bl31_dir}/$@; \
 	false
+
+idbloader.img: tpl/u-boot-tpl.bin spl/u-boot-spl.bin
+	${SRC_ROOT_DIR}/tools/mkimage -n rk3588s -T rksd -d ${SRC_ROOT_DIR}/$< $@
+	cat ${SRC_ROOT_DIR}/$(word 2, $^) >> $@
+
+idbloader.img-clean:
+	rm -f idbloader.img
+
+clean: idbloader.img-clean
 
 ifeq ($(shell uname -m),aarch64)
 
