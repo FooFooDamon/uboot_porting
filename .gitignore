@@ -34,6 +34,7 @@ __pycache__
 __ver__.mk
 u-boot.mk
 zImage.old
+idbloader.img
 *.out
 logs
 *.log
