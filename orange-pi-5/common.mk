@@ -10,12 +10,10 @@ CUSTOM_FILES += arch/${ARCH}/dts/rk3588s-orangepi-5.dts
 USER_HELP_PRINTS ?= echo "  * ${MAKE} once4all"; \
     echo "  * ${MAKE} idbloader.img"; \
     echo "  * ${MAKE} idbloader.img-clean"; \
-    echo "  * ${MAKE} bootscript"; \
-    echo "  * ${MAKE} bootscript_install"; \
+    echo "  * ${MAKE} /boot/boot.scr"; \
     echo "  * ${MAKE} fix_clangd_db";
 
-.PHONY: once4all u-boot.itb bl31.elf u-boot.dtb idbloader.img-clean clean \
-    install bootscript bootscript_install fix_clangd_db
+.PHONY: once4all u-boot.itb bl31.elf u-boot.dtb idbloader.img-clean clean install fix_clangd_db
 
 once4all: u-boot.itb idbloader.img
 
@@ -41,17 +39,13 @@ clean: idbloader.img-clean
 
 ifeq ($(shell uname -m),aarch64)
 
-install: bootscript_install
+install: /boot/boot.scr
 
 endif
 
-bootscript_install: bootscript
-	install ../boot.cmd ../boot.scr /boot/
-
-bootscript: ../boot.scr
-
-../boot.scr: ../boot.cmd
+/boot/boot.scr: ../boot.cmd
 	mkimage -C none -A arm -T script -d $< $@
+	install $< $(dir $@)
 
 fix_clangd_db:
 	sed -i -e '/"-f/d' -e '/"-mabi=lp64"/d' ${SRC_ROOT_DIR}/compile_commands.json
