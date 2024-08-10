@@ -1,8 +1,10 @@
 ARCH ?= arm
 CROSS_COMPILE ?= aarch64-linux-gnu-
-INSTALL_DIR ?= $(if $(shell uname -m | grep aarch64),$(shell ls -d /usr/lib/linux-u-boot-*),${HOME}/tftpd/orange-pi-5)
+__OPI5_HOSTNAME ?= $(shell uname -n | grep orangepi5)
+INSTALL_DIR ?= $(if ${__OPI5_HOSTNAME},$(shell ls -d /usr/lib/linux-u-boot-*),${HOME}/tftpd/orange-pi-5)
 POST_INSTALL_CMD ?= ls ${INSTALL_DIR}/u-boot* | grep -v "u-boot\.itb" | xargs -I {} rm {}; \
-    cp idbloader.img ${INSTALL_DIR}/
+    cp idbloader.img ${INSTALL_DIR}/; \
+    $(if ${__OPI5_HOSTNAME},printf '\nNow you can run "sudo nand-sata-install" to burn the installed images.\n\n')
 UNINSTALL_CMD ?= rm -f ${INSTALL_DIR}/u-boot.itb ${INSTALL_DIR}/idbloader.img
 DEFCONFIG ?= configs/orangepi_5_defconfig
 EXT_TARGETS += u-boot.itb u-boot.dtb tpl/u-boot-tpl.bin spl/u-boot-spl.bin
@@ -37,7 +39,7 @@ idbloader.img-clean:
 
 clean: idbloader.img-clean
 
-ifeq ($(shell uname -m),aarch64)
+ifneq (${__OPI5_HOSTNAME},)
 
 install: /boot/boot.scr
 
