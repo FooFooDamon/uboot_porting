@@ -1132,6 +1132,7 @@ CONFIG_PHYLIB=y
 # CONFIG_PHY_LXT is not set
 # CONFIG_PHY_MARVELL is not set
 # CONFIG_PHY_MICREL is not set
+CONFIG_PHY_MOTORCOMM=y
 # CONFIG_PHY_MSCC is not set
 # CONFIG_PHY_NATSEMI is not set
 # CONFIG_PHY_REALTEK is not set
@@ -1157,7 +1158,7 @@ CONFIG_DWC_ETH_QOS_FULL=y
 # CONFIG_FTMAC100 is not set
 # CONFIG_MACB is not set
 # CONFIG_PCH_GBE is not set
-# CONFIG_RGMII is not set
+CONFIG_RGMII=y
 # CONFIG_RTL8139 is not set
 # CONFIG_RTL8169 is not set
 # CONFIG_SUN7I_GMAC is not set
