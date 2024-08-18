@@ -17,6 +17,8 @@ setenv remote_env_file ""
 setenv fdt_dir "dtb"
 setenv kernel_load_cmd_default "load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}Image"
 setenv kernel_load_cmd "${kernel_load_cmd_default}"
+setenv show_usebackup_inquiry "n"
+setenv use_backup_env_file "n"
 
 echo "Boot script loaded from ${devtype} ${devnum}"
 
@@ -42,9 +44,24 @@ if test "${remote_env_file}" != ""; then
 	echo "Fetching an environment variables file via TFTP ..."
 	if tftp ${load_addr} ${remote_env_file}; then
 		echo "Applying environment variable additions and/or overrides ..."
-		env import -t ${load_addr} ${filesize}
+		if env import -t ${load_addr} ${filesize}; then
+			setenv show_usebackup_inquiry "n"
+			setenv use_backup_env_file "n"
+		fi
 	else
 		printenv && echo "" && help
+	fi
+fi
+
+if test "${show_usebackup_inquiry}" = "y" || test "${show_usebackup_inquiry}" = "Y"; then
+	askenv use_backup_env_file "Load the backup environment variables file? Input y or n, then press Enter:" || setenv use_backup_env_file "n"
+fi
+
+if test "${use_backup_env_file}" = "y" || test "${use_backup_env_file}" = "Y"; then
+	echo "Loading the backup environment variables file ..."
+	if load ${devtype} ${devnum} ${load_addr} ${prefix}orangepiEnv.txt.bak; then
+		echo "Applying environment variable additions and/or overrides ..."
+		env import -t ${load_addr} ${filesize}
 	fi
 fi
 
