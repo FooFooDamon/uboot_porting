@@ -48,6 +48,11 @@ endif
 /boot/boot.scr: ../boot.cmd
 	mkimage -C none -A arm -T script -d $< $@
 	install $< $(dir $@)
+	if [ ! -f $(dir $@)orangepiEnv.txt ]; then \
+		install $(dir $<)orangepiEnv.txt $(dir $@); \
+		rootfs_uuid=$$(blkid | grep 'LABEL="opi_root"' | sed 's/.*\(\<UUID=\)"\([^" ]\+\)".*/\1\2/'); \
+		[ -z "$${rootfs_uuid}" ] || sed -i "s/\(rootdev=\).*/\1$${rootfs_uuid}/" $(dir $@)orangepiEnv.txt; \
+	fi
 
 fix_clangd_db:
 	sed -i -e '/"-f/d' -e '/"-mabi=lp64"/d' ${SRC_ROOT_DIR}/compile_commands.json
