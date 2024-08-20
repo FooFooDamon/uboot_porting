@@ -1,0 +1,26 @@
+# Kernel log level: 0-emergency, 1-alert, 2-critical, 3-error, 4-warning, 5-notice, 6-info, 7-debug
+# Only messages with level in range of [0, verbosity) can be output.
+verbosity=5
+
+bootlogo=false
+extraargs=cma=128M
+
+overlay_prefix=rk3588
+overlays=ov13855-c2
+fdtfile=rockchip/rk3588s-orangepi-5.dtb
+fdt_dir=dtbs/6.1.43-20240203.752c0d0a12fd.1
+
+usbstoragequirks=0x2537:0x1066:u,0x2537:0x1068:u
+rootdev=UUID=62b7259f-7228-4e80-a30d-6c3e8c3019dc
+rootfstype=ext4
+
+show_usebackup_inquiry=n
+remote_env_file=orange-pi-5/orangepiEnv.txt
+kernel_load_cmd=echo "Fetching the kernel image via TFTP ..."; tftp ${kernel_addr_r} orange-pi-5/Image
+
+ethdev=eth0
+#ipaddr=192.168.XXX.xxx
+netmask=255.255.255.0
+#serverip=192.168.XXX.yyy
+#gatewayip=192.168.XXX.yyy
+
