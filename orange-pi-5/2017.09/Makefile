@@ -7,7 +7,10 @@ CUSTOM_FILES += tools/rockchip/boot_merger.c \
     drivers/net/phy/Makefile \
     include/phy.h \
     drivers/net/phy/phy.c \
-    drivers/net/phy/motorcomm.c
+    drivers/net/phy/motorcomm.c \
+    drivers/power/regulator/rk806.c \
+    include/configs/rk3588_common.h \
+    scripts/Makefile.spl
 
 include ../common.mk
 include ../../wrapper.mk
