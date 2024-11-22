@@ -183,14 +183,9 @@ CONFIG_ROCKCHIP_RESOURCE_IMAGE=y
 CONFIG_ROCKCHIP_DTB_VERIFY=y
 # CONFIG_ROCKCHIP_USB_BOOT is not set
 CONFIG_ROCKCHIP_FIT_IMAGE=y
-# CONFIG_ROCKCHIP_UIMAGE is not set
-# CONFIG_ROCKCHIP_EARLY_DISTRO_DTB is not set
 CONFIG_ROCKCHIP_HWID_DTB=y
 CONFIG_ROCKCHIP_VENDOR_PARTITION=y
-CONFIG_USING_KERNEL_DTB=y
-CONFIG_USING_KERNEL_DTB_V2=y
-CONFIG_EMBED_KERNEL_DTB_PATH="dts/kern.dtb"
-# CONFIG_EMBED_KERNEL_DTB_ALWAYS is not set
+# CONFIG_USING_KERNEL_DTB is not set
 # CONFIG_ROCKCHIP_CRC is not set
 CONFIG_ROCKCHIP_SMCCC=y
 # CONFIG_ROCKCHIP_DEBUGGER is not set
@@ -758,7 +753,6 @@ CONFIG_OF_LIST="rk3588s-orangepi-5"
 # CONFIG_MULTI_DTB_FIT is not set
 # CONFIG_SPL_MULTI_DTB_FIT is not set
 CONFIG_OF_SPL_REMOVE_PROPS="clock-names interrupt-parent assigned-clocks assigned-clock-rates assigned-clock-parents"
-CONFIG_OF_U_BOOT_REMOVE_PROPS="pinctrl-0 pinctrl-names clock-names interrupt-parent assigned-clocks assigned-clock-rates assigned-clock-parents"
 # CONFIG_SPL_OF_PLATDATA is not set
 CONFIG_MKIMAGE_DTC_PATH="dtc"
 
@@ -1132,7 +1126,7 @@ CONFIG_PHYLIB=y
 # CONFIG_PHY_LXT is not set
 # CONFIG_PHY_MARVELL is not set
 # CONFIG_PHY_MICREL is not set
-CONFIG_PHY_MOTORCOMM=y
+# CONFIG_PHY_MOTORCOMM is not set
 # CONFIG_PHY_MSCC is not set
 # CONFIG_PHY_NATSEMI is not set
 # CONFIG_PHY_REALTEK is not set
