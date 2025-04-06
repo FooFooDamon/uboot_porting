@@ -15,7 +15,7 @@ ifeq ($(shell [ true $(foreach i, ${LAZY_CODING_MAKEFILES}, -a -s ${i}) ] && ech
 
 LAZY_CODING_URL ?= https://github.com/FooFooDamon/lazy_coding_skills
 
-all prepare:
+all help prepare:
 	@for i in ${LAZY_CODING_MAKEFILES}; \
 	do \
 		mkdir -p $$(dirname $${i}); \
