@@ -19,7 +19,7 @@ all help prepare:
 	@for i in ${LAZY_CODING_MAKEFILES}; \
 	do \
 		mkdir -p $$(dirname $${i}); \
-		[ -s $${i} ] || wget -c -O $${i} "${LAZY_CODING_URL}/raw/main/makefile/$$(basename $${i})"; \
+		[ -s $${i} ] || wget -c -O $${i} "${LAZY_CODING_URL}/raw/main/makefiles/$$(basename $${i})"; \
 	done
 	@echo "~ ~ ~ Minimum preparation finished successfully ~ ~ ~"
 	@echo "Re-run your command again to continue your work."
