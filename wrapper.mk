@@ -3,11 +3,11 @@
 #
 # Makefile wrapper for U-Boot porting project.
 #
-# Copyright (c) 2024 Man Hung-Coeng <udc577@126.com>
+# Copyright (c) 2024-2026 Man Hung-Coeng <udc577@126.com>
 #
 
 override undefine LAZY_CODING_MAKEFILES
-LAZY_CODING_MAKEFILES := __ver__.mk u-boot.mk
+LAZY_CODING_MAKEFILES := __revision__.mk u-boot.mk
 
 ifeq ($(shell [ true $(foreach i, ${LAZY_CODING_MAKEFILES}, -a -s ${i}) ] && echo 1 || echo 0),0)
 
