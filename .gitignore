@@ -31,6 +31,7 @@ __pycache__
 
 # ---- Project-specific rules below ----
 
+__revision__.mk
 __ver__.mk
 u-boot.mk
 zImage.old
